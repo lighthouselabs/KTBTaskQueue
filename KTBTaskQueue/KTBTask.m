@@ -7,7 +7,7 @@
 //
 
 #import "KTBTask.h"
-#import <FMDB/FMResultSet.h>
+#import "FMResultSet.h"
 
 const NSInteger KTBTaskMaxRetriesDefault = 10;
 const NSInteger KTBTaskAlwaysRetry = -1;

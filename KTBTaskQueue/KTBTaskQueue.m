@@ -8,8 +8,8 @@
 
 #import "KTBTaskQueue.h"
 #import "KTBTask.h"
-#import <FMDB/FMDatabaseQueue.h>
-#import <FMDB/FMDatabase.h>
+#import "FMDatabaseQueue.h"
+#import "FMDatabase.h"
 
 void KTBDispatchSyncOnMainQueue(void (^block)(void)) {
     if ([NSThread isMainThread]) {
@@ -223,14 +223,14 @@ const NSTimeInterval KTBTaskQueueDefaultPollingInterval = 10;
                 
                 if (self.executionBlock) {
                     // Use our assigned execution block to process the task
-                    self.executionBlock(task, completionBlock);
+                    self.executionBlock(task, taskCompletionBlock);
                 }
                 else if (self.delegate) {
                     // Ask the delegate to process the task
-                    [self.delegate taskQueue:self executeTask:task completion:completionBlock];
+                    [self.delegate taskQueue:self executeTask:task completion:taskCompletionBlock];
                 }
                 else {
-                    completionBlock(KTBTaskStatusFailure);
+                    taskCompletionBlock(KTBTaskStatusFailure);
                 }
             }
             else {
