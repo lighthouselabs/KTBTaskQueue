@@ -49,4 +49,7 @@ typedef void(^KTBTaskCompletionBlock)(KTBTaskStatus result);
  @note This method is only called when @c retryWithBackoff is set to @c YES on the task. Otherwise, the task is retried immediately.
  */
 - (NSDate *)taskQueue:(KTBTaskQueue *)queue willDelayRetryOfTask:(KTBTask *)task untilDate:(NSDate *)date;
+
+- (BOOL)taskQueue:(KTBTaskQueue *)queue shouldDequeueNextTask:(KTBTask *)task;
+
 @end

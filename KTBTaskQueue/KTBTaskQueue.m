@@ -198,7 +198,7 @@ const NSTimeInterval KTBTaskQueueDefaultPollingInterval = 10;
         if (self.valid && !self.suspended && !self.processing && [self hasEligibleTasks]) {
             self.processing = YES;
             KTBTask *task = [self nextTask];
-            if (task) {
+            if (task && [self.delegate taskQueue:self shouldDequeueNextTask:task]) {
                 // Stop the timer
                 [self stopPollingTimer];
                 
@@ -223,14 +223,14 @@ const NSTimeInterval KTBTaskQueueDefaultPollingInterval = 10;
                 
                 if (self.executionBlock) {
                     // Use our assigned execution block to process the task
-                    self.executionBlock(task, taskCompletionBlock);
+                    self.executionBlock(task, completionBlock);
                 }
                 else if (self.delegate) {
                     // Ask the delegate to process the task
-                    [self.delegate taskQueue:self executeTask:task completion:taskCompletionBlock];
+                    [self.delegate taskQueue:self executeTask:task completion:completionBlock];
                 }
                 else {
-                    taskCompletionBlock(KTBTaskStatusFailure);
+                    completionBlock(KTBTaskStatusFailure);
                 }
             }
             else {
